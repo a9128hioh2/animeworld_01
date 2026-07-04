@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wallpapers - Anime Wallpaper World</title>
+<link rel="icon" type="image/x-icon" href="logo.jpeg">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #0a0a0f;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0c0;
+  --accent: #7b61ff;
+  --accent-glow: rgba(123, 97, 255, 0.5);
+  --glass: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-primary: #f5f5f7;
+    --text-primary: #1a1a2e;
+    --text-secondary: #5a5a6e;
+    --glass: rgba(0, 0, 0, 0.03);
+    --border: rgba(0, 0, 0, 0.08);
+  }
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg-primary);
+  background-image: url('12.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  z-index: -1;
+}
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 5%;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 35px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after, .nav-links a.active::after {
+  width: 100%;
+}
+
+/* Main */
+.container {
+  max-width: 1400px;
+  margin: 60px auto;
+  padding: 0 5%;
+}
+
+.page-title {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-align: center;
+  background: linear-gradient(135deg, #fff, #b0b0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.page-desc {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.wallpaper-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.wallpaper-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 25px 60px rgba(123, 97, 255, 0.4);
+  border-color: var(--accent);
+}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+
+.wallpaper-card:hover .card-img {
+  transform: scale(1.08);
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+  padding: 25px 20px;
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+
+.wallpaper-card:hover .card-overlay {
+  transform: translateY(0);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.card-info {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 15px;
+}
+
+/* Download Button - A tag එකට style */
+.download-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #7b61ff, #9d7bff);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(123, 97, 255, 0.6);
+}
+
+/* Lightbox */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 10001;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.show {
+  display: flex;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 20px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="wallpapers.html" class="active">Wallpapers</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <h1 class="page-title">Download Wallpapers</h1>
+  <p class="page-desc">High quality anime wallpapers for your phone. Tap to preview, click download to save HD version.</p>
+
+  <div class="grid" id="wallpaperGrid">
+    
+    <!-- WALLPAPER 1 - 1.jpg -->
+    <div class="wallpaper-card">
+      <img src="1.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('1.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="1.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="2.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('2.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="2.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="3.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('3.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="3.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="4.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('4.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="4.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="5.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('5.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="5.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="6.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('6.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="6.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="7.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('7.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="7.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="8.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('8.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="8.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="9.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('9.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="9.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="10.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('10.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="10.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="11.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('11.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="11.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="12.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('12.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="12.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+ <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="13.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('13.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="13.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="14.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('14.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="14.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="15.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('15.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="15.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="16.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('16.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="16.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="17.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('17.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="17.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="18.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('18.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="18.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="19.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('19.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="19.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="20.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('20.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="20.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="21.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('21.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="21.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="22.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('22.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="22.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+ <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="23.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('23.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="23.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="24.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('24.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="24.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 2 - 2.jpg -->
+    <div class="wallpaper-card">
+      <img src="25.jpg" alt="Cherry Blossom Love" class="card-img" onclick="openLightbox('25.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cherry Blossom Love</div>
+        <div class="card-info">4K • 2160x3840 • 1.8MB</div>
+        <a href="25.jpg" download="Cherry_Blossom_Love_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 3 - 3.jpg -->
+    <div class="wallpaper-card">
+      <img src="26.jpg" alt="Mountain Temple" class="card-img" onclick="openLightbox('26.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Mountain Temple</div>
+        <div class="card-info">4K • 2160x3840 • 2.1MB</div>
+        <a href="26.jpg" download="Mountain_Temple_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+<div class="wallpaper-card">
+      <img src="27.jpg" alt="Night City Samurai" class="card-img" onclick="openLightbox('27.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Night City Samurai</div>
+        <div class="card-info">4K • 2160x3840 • 2.3MB</div>
+        <!-- DOWNLOAD LINK - මේක තමයි fix එක -->
+        <a href="27.jpg" download="Night_City_Samurai_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+
+    <!-- WALLPAPER 5 - 5.jpg - COPY THIS BLOCK TO ADD MORE -->
+    <div class="wallpaper-card">
+      <img src="28.jpg" alt="Cyber Warrior" class="card-img" onclick="openLightbox('28.jpg')">
+      <div class="card-overlay">
+        <div class="card-title">Cyber Warrior</div>
+        <div class="card-info">4K • 2160x3840 • 2.5MB</div>
+        <a href="28.jpg" download="Cyber_Warrior_4K.jpg" class="download-btn">
+          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18v12m0 0l-4-4m4 4l4-4"/>
+          </svg>
+          Download
+        </a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="close-btn">&times;</span>
+  <img class="lightbox-content" id="lightboxImg">
+</div>
+
+<script>
+// Lightbox only - Download JS අයින් කරා
+function openLightbox(imgPath) {
+  document.getElementById('lightbox').classList.add('show');
+  document.getElementById('lightboxImg').src = imgPath;
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+}
+</script>
+</body>
+</html>
